@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Indian Farm Market</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    .cart-container {
+      margin-top: 40px;
+    }
+    .form-section {
+      display: none;
+      margin-top: 20px;
+    }
+    .form-section input, .form-section select {
+      margin-bottom: 15px;
+    }
+    .alert-success {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body class="p-4">
+
+  <div class="container cart-container">
+    <h3>Purchase Cart</h3>
+    <div id="cart-items">Cashew Nuts – ₹400 x 3</div>
+    <h5>Total: ₹<span id="total-price">1200</span></h5>
+
+    <button id="proceed-btn" class="btn btn-primary">Proceed to Payment</button>
+    <button onclick="clearCart()" class="btn btn-danger">Clear Cart</button>
+
+    <!-- Payment Form -->
+    <div id="payment-form" class="form-section">
+      <h4 class="mt-4">Payment Details</h4>
+      <form id="checkout-form">
+        <input type="text" class="form-control" id="customer-name" placeholder="Customer Name" required>
+        <input type="text" class="form-control" id="address" placeholder="Address" required>
+        <input type="tel" class="form-control" id="phone" placeholder="Phone Number" required>
+
+        <input type="text" class="form-control" id="cost" readonly>
+
+        <select class="form-control" id="payment-method" required>
+          <option value="">Select Payment Method</option>
+          <option>Debit Card</option>
+          <option>Credit Card</option>
+          <option>UPI</option>
+        </select>
+
+        <button type="submit" class="btn btn-success mt-3">Submit Payment</button>
+      </form>
+
+      <div id="success-message" class="alert alert-success d-none">✅ Successfully purchased the products!</div>
+    </div>
+  </div>
+
+  <script>
+    const proceedBtn = document.getElementById("proceed-btn");
+    const paymentForm = document.getElementById("payment-form");
+    const costInput = document.getElementById("cost");
+    const total = document.getElementById("total-price").textContent;
+    const form = document.getElementById("checkout-form");
+    const successMessage = document.getElementById("success-message");
+
+    proceedBtn.addEventListener("click", () => {
+      paymentForm.style.display = "block";
+      costInput.value = `₹${total}`;
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    });
+
+    form.addEventListener("submit", async function(e) {
+      e.preventDefault();
+
+      const customerName = document.getElementById("customer-name").value;
+      const address = document.getElementById("address").value;
+      const phone = document.getElementById("phone").value;
+      const paymentMethod = document.getElementById("payment-method").value;
+      const amount = document.getElementById("total-price").textContent;
+
+      try {
+        const response = await fetch('http://localhost:5000/api/payment', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            customerName,
+            address,
+            phone,
+            paymentMethod,
+            amount,
+          }),
+        });
+
+        const result = await response.json();
+        if (response.ok) {
+          successMessage.classList.remove("d-none");
+          form.reset();
+          document.getElementById("cart-items").innerHTML = "";
+          document.getElementById("total-price").textContent = "0";
+          costInput.value = "";
+          proceedBtn.disabled = true;
+        } else {
+          alert("Payment failed: " + result.error);
+        }
+      } catch (error) {
+        console.error("Error processing payment:", error);
+        alert("Payment failed due to server error.");
+      }
+    });
+
+    function clearCart() {
+      document.getElementById("cart-items").innerHTML = "";
+      document.getElementById("total-price").textContent = "0";
+      paymentForm.style.display = "none";
+    }
+  </script>
+
+</body>
+</html>

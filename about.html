@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="auto">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Indian Farm Market | Farm-Fresh Organic Products</title>
+
+  <!-- Preload critical resources -->
+  <link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" as="style" />
+  <link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" as="style" />
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap" as="style" />
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+   /* Smooth transitions for interactive elements */
+button, .card, .modal-content {
+  transition: all 0.3s ease;
+}
+
+/* Gradient background for About section */
+section.container.py-5 {
+  background: linear-gradient(135deg, #fdfdfd, #f0fff0);
+  border-radius: 1rem;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+/* Button hover effects */
+.learn-more-btn:hover {
+  background-color: #28a745;
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+}
+
+/* Card elevation and hover scaling */
+.card {
+  border-radius: 1rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+.card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+}
+
+/* Glassmorphism modal style */
+.modal-content {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
+  border-radius: 1rem;
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+/* Responsive typography for stats */
+.stat-item h2 {
+  font-size: clamp(1.5rem, 2.5vw, 2rem);
+}
+.stat-item p {
+  font-size: clamp(0.9rem, 1.5vw, 1rem);
+}
+
+/* Custom icon color glow */
+.bi {
+  transition: color 0.3s ease;
+}
+.bi:hover {
+  color: #1e7e34;
+  text-shadow: 0 0 5px rgba(40, 167, 69, 0.4);
+}
+
+/* Responsive and elegant section heading */
+.section-heading {
+  font-size: clamp(1.8rem, 5vw, 2.5rem);
+  color: #155724;
+  text-shadow: 0 1px 0 #e6ffe6;
+}
+
+/* Improve spacing on small screens */
+@media (max-width: 576px) {
+  .stat-item {
+    margin-bottom: 1.5rem;
+  }
+}
+  </style>
+</head>
+<body>
+
+  <!-- About Section -->
+  <section class="container py-5">
+    <div class="text-center mb-5">
+      <h2 class="section-heading">Why Choose Indian Farm Market?</h2>
+      <p class="text-muted">We deliver fresh, certified organic produce directly from Indian farms to your doorstep.</p>
+    </div>
+    <div class="row g-4">
+      <div class="col-md-4 text-center">
+        <i class="bi bi-leaf-fill text-success fs-1 mb-2"></i>
+        <h5>100% Organic</h5>
+        <p>Our produce is grown without chemicals, certified by India Organic.</p>
+        <button class="btn btn-outline-success btn-sm learn-more-btn" data-feature="organic">Learn More</button>
+      </div>
+      <div class="col-md-4 text-center">
+        <i class="bi bi-truck text-success fs-1 mb-2"></i>
+        <h5>Pan-India Delivery</h5>
+        <p>Cold-chain delivery ensures freshness from farm to plate.</p>
+        <button class="btn btn-outline-success btn-sm learn-more-btn" data-feature="delivery">Learn More</button>
+      </div>
+      <div class="col-md-4 text-center">
+        <i class="bi bi-people-fill text-success fs-1 mb-2"></i>
+        <h5>Empowering Farmers</h5>
+        <p>We work directly with 12,000+ farmers across 1,200 villages.</p>
+        <button class="btn btn-outline-success btn-sm learn-more-btn" data-feature="farmers">Learn More</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats Counter Section -->
+  <section class="stats-counter">
+    <div class="container">
+      <div class="row text-center">
+        <div class="col-6 col-md-3 stat-item">
+          <h2 id="farmers-count">0</h2>
+          <p>Farmers</p>
+        </div>
+        <div class="col-6 col-md-3 stat-item">
+          <h2 id="products-count">0</h2>
+          <p>Organic Products</p>
+        </div>
+        <div class="col-6 col-md-3 stat-item">
+          <h2 id="deliveries-count">0</h2>
+          <p>Deliveries</p>
+        </div>
+        <div class="col-6 col-md-3 stat-item">
+          <h2 id="villages-count">0</h2>
+          <p>Villages Reached</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Feature Modal -->
+  <div class="modal fade" id="featureModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header border-0">
+          <h5 class="modal-title" id="featureModalTitle"></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" id="featureModalContent"></div>
+        <div class="modal-footer border-0">
+          <button type="button" class="btn btn-success" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Main JavaScript -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      animateStatsCounter();
+      initFeatureModals();
+      initTheme();
+    });
+
+    function animateStatsCounter() {
+      const counters = [
+        { element: 'farmers-count', target: 12500, duration: 2000 },
+        { element: 'products-count', target: 350, duration: 2000 },
+        { element: 'deliveries-count', target: 85000, duration: 2000 },
+        { element: 'villages-count', target: 1200, duration: 2000 }
+      ];
+      const options = { threshold: 0.5 };
+      const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            counters.forEach(counter => {
+              animateCounter(counter.element, counter.target, counter.duration);
+            });
+            observer.disconnect();
+          }
+        });
+      }, options);
+      const target = document.querySelector('.stats-counter');
+      if (target) observer.observe(target);
+    }
+
+    function animateCounter(id, target, duration) {
+      const element = document.getElementById(id);
+      const increment = target / (duration / 16);
+      let current = 0;
+      const timer = setInterval(() => {
+        current += increment;
+        if (current >= target) {
+          clearInterval(timer);
+          current = target;
+        }
+        element.textContent = Math.floor(current).toLocaleString();
+      }, 16);
+    }
+
+    function initFeatureModals() {
+      const modal = new bootstrap.Modal(document.getElementById('featureModal'));
+      const modalTitle = document.getElementById('featureModalTitle');
+      const modalContent = document.getElementById('featureModalContent');
+
+      document.querySelectorAll('.learn-more-btn').forEach(btn => {
+        btn.addEventListener('click', function () {
+          const feature = this.getAttribute('data-feature');
+          showFeatureModal(feature, modal, modalTitle, modalContent);
+        });
+      });
+    }
+
+    function showFeatureModal(feature, modal, titleEl, contentEl) {
+      const features = {
+        organic: {
+          title: "Our Organic Promise",
+          content: `
+            <div class="text-center mb-4">
+              <i class="bi bi-leaf-fill text-success fs-1"></i>
+            </div>
+            <p>At Indian Farm Market, we are committed to 100% organic farming practices:</p>
+            <ul class="list-group list-group-flush mb-3">
+              <li class="list-group-item">No synthetic pesticides or fertilizers</li>
+              <li class="list-group-item">Non-GMO seeds and natural cultivation</li>
+              <li class="list-group-item">Certified organic by India Organic and USDA</li>
+              <li class="list-group-item">Regular soil health monitoring</li>
+              <li class="list-group-item">Sustainable water management</li>
+            </ul>
+            <p>Our produce is tested in certified labs to ensure it meets the highest organic standards.</p>
+          `
+        },
+        delivery: {
+          title: "Our Delivery Network",
+          content: `
+            <div class="text-center mb-4">
+              <i class="bi bi-truck text-success fs-1"></i>
+            </div>
+            <p>We've built India's most efficient farm-to-door delivery system:</p>
+            <div class="row g-3 mb-3">
+              <div class="col-md-6">
+                <div class="card border-0 bg-light">
+                  <div class="card-body">
+                    <h6><i class="bi bi-speedometer2 me-2 text-success"></i>Fast Delivery</h6>
+                    <small class="text-muted">Harvest to your home in 24–48 hours</small>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="card border-0 bg-light">
+                  <div class="card-body">
+                    <h6><i class="bi bi-thermometer-snow me-2 text-success"></i>Cold Chain</h6>
+                    <small class="text-muted">Temperature-controlled transport</small>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="card border-0 bg-light">
+                  <div class="card-body">
+                    <h6><i class="bi bi-shield-check me-2 text-success"></i>Safe Handling</h6>
+                    <small class="text-muted">Hygienic packaging and delivery</small>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="card border-0 bg-light">
+                  <div class="card-body">
+                    <h6><i class="bi bi-geo-alt me-2 text-success"></i>Wide Coverage</h6>
+                    <small class="text-muted">Serving 50+ cities across India</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          `
+        },
+        farmers: {
+          title: "Empowering Our Farmers",
+          content: `
+            <div class="text-center mb-4">
+              <i class="bi bi-people-fill text-success fs-1"></i>
+            </div>
+            <p>We're revolutionizing Indian agriculture by directly connecting farmers to consumers:</p>
+            <div class="d-flex align-items-start mb-3">
+              <div class="flex-shrink-0 text-success me-3">
+                <i class="bi bi-currency-rupee fs-4"></i>
+              </div>
+              <div>
+                <h6>Fair Pricing</h6>
+                <p class="small text-muted">Farmers earn 2–3× more by eliminating middlemen</p>
+              </div>
+            </div>
+            <div class="d-flex align-items-start mb-3">
+              <div class="flex-shrink-0 text-success me-3">
+                <i class="bi bi-book fs-4"></i>
+              </div>
+              <div>
+                <h6>Education</h6>
+                <p class="small text-muted">Training in organic farming and new techniques</p>
+              </div>
+            </div>
+            <div class="d-flex align-items-start mb-3">
+              <div class="flex-shrink-0 text-success me-3">
+                <i class="bi bi-graph-up fs-4"></i>
+              </div>
+              <div>
+                <h6>Sustainable Growth</h6>
+                <p class="small text-muted">Support through agri-finance, insurance, and tools</p>
+              </div>
+            </div>
+            <p>We believe when farmers thrive, communities grow and food security strengthens across India.</p>
+          `
+        }
+      };
+
+      const selected = features[feature];
+      if (selected) {
+        titleEl.textContent = selected.title;
+        contentEl.innerHTML = selected.content;
+        modal.show();
+      }
+    }
+
+    function initTheme() {
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      document.documentElement.setAttribute('data-bs-theme', prefersDark ? 'dark' : 'light');
+    }
+  </script>
+</body>
+</html>
